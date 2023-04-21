@@ -275,13 +275,13 @@ export class News extends Component {
   render() {
     return (
     <>
-      <div className='container my-5'>
+      <div className='container my-5 '>
         <h2 className='text-center mb-3'><b>Trending</b></h2>
         
         <div className="row">
         {this.state.article.map((element)=>{
-            return  <div className="col-md-4">
-            <NewsItem title={element.title} description={element.description} imgUrl={element.urlToImage} />
+            return  <div className="col-md-4" key={element.url}>
+            <NewsItem  title={element.title} description={element.description} imgUrl={element.urlToImage} newsUrl={element.url}/>
             
             </div>
         })}
