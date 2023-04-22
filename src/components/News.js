@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 
 export class News extends Component {
-  article =  [
+  articles =  [
     {
       "source": {
         "id": null,
@@ -24,7 +24,7 @@ export class News extends Component {
       "author": "Jack Jeffery",
       "title": "Sudanese army, rival forces agree to 24-hour cease-fire - The Associated Press",
       "description": "KHARTOUM, Sudan (AP) — The Sudanese army and a rival paramilitary force that have been battling the past four days for control of the country agreed on Tuesday to a 24-hour cease-fire, Arab media reports said.",
-      "url": "https://apnews.com/article/sudan-fighting-military-us-convoy-attacked-60b1568b3bd05cdf6ad78c7f17cc8208",
+      "url": "https://apnews.com/articles/sudan-fighting-military-us-convoy-attacked-60b1568b3bd05cdf6ad78c7f17cc8208",
       "urlToImage": "https://storage.googleapis.com/afs-prod/media/980968ca210749b8985cc2b27d150282/3000.webp",
       "publishedAt": "2023-04-18T12:08:00Z",
       "content": "KHARTOUM, Sudan (AP) The Sudanese army and a rival paramilitary force that have been battling the past four days for control of the country agreed on Tuesday to a 24-hour cease-fire, Arab media repor… [+6676 chars]"
@@ -258,7 +258,7 @@ export class News extends Component {
       "author": "Mark Thiessen",
       "title": "Odd spiral appears amid northern lights in Alaska night sky - The Associated Press",
       "description": "ANCHORAGE, Alaska (AP) — Northern light enthusiasts got a surprise mixed in with the green bands of light dancing in the Alaska skies: A light baby blue spiral resembling a galaxy appeared amid the aurora for a few minutes.",
-      "url": "https://apnews.com/article/alaska-sky-spiral-aurora-northern-lights-90e767058f328bb95bab62c3f5bed1cc",
+      "url": "https://apnews.com/articles/alaska-sky-spiral-aurora-northern-lights-90e767058f328bb95bab62c3f5bed1cc",
       "urlToImage": "https://storage.googleapis.com/afs-prod/media/2f5e47ea5055494e9303d97c39fa9d77/3000.webp",
       "publishedAt": "2023-04-18T04:40:57Z",
       "content": "ANCHORAGE, Alaska (AP) Northern light enthusiasts got a surprise mixed in with the green bands of light dancing in the Alaska skies: A light baby blue spiral resembling a galaxy appeared amid the aur… [+1939 chars]"
@@ -268,9 +268,17 @@ export class News extends Component {
     super();
     console.log("checking constructor working ")
     this.state = {
-      article: this.article,
+      articles: this.articles,
       loading: true
     }
+  }
+
+  async componentDidMount(){
+    let url = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=6e4777699b4945c4823a222fce23cade";
+    let data =  await fetch(url);
+    let parsedData = await data.json();
+    this.setState({articles: parsedData.articles})
+
   }
   render() {
     return (
@@ -279,9 +287,9 @@ export class News extends Component {
         <h2 className='text-center mb-3'><b>Trending</b></h2>
         
         <div className="row">
-        {this.state.article.map((element)=>{
+        {this.state.articles.map((element)=>{
             return  <div className="col-md-4" key={element.url}>
-            <NewsItem  title={element.title.slice(0, 45)} description={element.description.slice(0, 88)} imgUrl={element.urlToImage} newsUrl={element.url}/>
+            <NewsItem  title={element.title?element.title.slice(0,45):" "} description={element.description?element.description.slice(0,88):" "} imgUrl={element.urlToImage} newsUrl={element.url}/>
             
             </div>
         })}
